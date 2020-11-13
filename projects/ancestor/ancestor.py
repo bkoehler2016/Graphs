@@ -33,7 +33,7 @@ def earliest_ancestor(ancestors, starting_node):
             visited.add(cur_node)
         
         #check for need to update
-        if len(path) >= path_len and cur_node <oldest_parent or len(path) > path_len:
+        if len(path) >= path_len and cur_node < oldest_parent or len(path) > path_len:
             #updates path length
             path_len = len(path)
             #updates oldest parent
