@@ -1,11 +1,17 @@
-from util import Queue
+import random
 
-def get_ancestor(ancestors, child):
-    heirs = []
-    for heir in ancestors:
-        if heir[1] == child:
-            heirs.append(heir[0])
-    return heirs
+class Queue():
+    def __init__(self):
+        self.queue = []
+    def enqueue(self, value):
+        self.queue.append(value)
+    def dequeue(self):
+        if self.size() > 0:
+            return self.queue.pop(0)
+        else:
+            return None
+    def size(self):
+        return len(self.queue)
 
 class User:
     def __init__(self, name):
