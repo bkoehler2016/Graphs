@@ -1,3 +1,12 @@
+from util import Queue
+
+def get_ancestor(ancestors, child):
+    heirs = []
+    for heir in ancestors:
+        if heir[1] == child:
+            heirs.append(heir[0])
+    return heirs
+
 class User:
     def __init__(self, name):
         self.name = name
