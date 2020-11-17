@@ -113,7 +113,7 @@ class SocialGraph:
         q = Queue()
         q.enqueue(user_id)
 
-        while q.size() > 0: 
+        while q.size() > 0:
 
             current_friend_ID = q.dequeue()
             friends_of_current_friend = self.friendships[current_friend_ID]
