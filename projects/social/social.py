@@ -103,7 +103,6 @@ class SocialGraph:
         """
         visited = {}  # Note that this is a dictionary, not a set
        
-        visited = {}  # make dictionary for visited
 
         # initialize dictionary with path to self
         # later connections will build off of this entry
