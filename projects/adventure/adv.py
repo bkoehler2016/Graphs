@@ -33,12 +33,45 @@ backtracking = {
     'e': 'w'
 }
 
+def maze_traversal(current_room, visited=None):
+    # list for directions while moving rooms
+    directions = []
+    # if visited is none (1st loop) create a set to hold all visited nodes
+    if visited == None:
+        visited = set()
+
+    # Find all exits for current room
+    for move in player.current_room.get_exits():
+        # Move in selected direction
+        # print(move)
+        player.travel(move)
+
+        # If room is in visited, backtrack to find an unvisited path
+        if player.current_room in visited:
+            player.travel(backtracking[move])
+            # print(backtracking[move])
+        # if we haven't visited this room:
+        else:
+            # Add to visited
+            visited.add(player.current_room)
+            # append the move to the directions list
+            directions.append(move)
+            # recursive call and repeat the above loop and add directions to path
+            directions = directions + \
+                maze_traversal(player.current_room, visited)
+            # Move to previouss room
+            player.travel(backtracking[move])
+            # add backtracking to the directions list
+            directions.append(backtracking[move])
+
+    return directions
+
 # Fill this out with directions to walk
 # traversal_path = ['n', 'n']
-traversal_path = []
+traversal_path = [maze_traversal(player.current_room)]
 
-# store visted rooms in list
-# if room is in visted check for neighbors
+
+
 # if neighbor is in visted check it's neighbors
 
 
