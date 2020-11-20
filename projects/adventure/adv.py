@@ -25,6 +25,13 @@ world.print_rooms()
 
 player = Player(world.starting_room)
 
+backtracking = {
+    'n': 's',
+    's': 'n',
+    'w': 'e',
+    'e': 'w'
+}
+
 # Fill this out with directions to walk
 # traversal_path = ['n', 'n']
 traversal_path = []
