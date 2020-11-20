@@ -25,6 +25,7 @@ world.print_rooms()
 
 player = Player(world.starting_room)
 
+# backtracking so we can keep track of where we can go from previous path
 backtracking = {
     'n': 's',
     's': 'n',
