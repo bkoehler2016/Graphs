@@ -25,53 +25,52 @@ world.print_rooms()
 
 player = Player(world.starting_room)
 
-backtracking = {
-    'n': 's',
-    's': 'n',
-    'w': 'e',
-    'e': 'w'
-}
-
-
-def maze_traversal(current_room, visited=None):
-    # list for directions while moving rooms
-    directions = []
-    # if visited is none (1st loop) create a set to hold all visited nodes
-    if visited == None:
-        visited = set()
-
-    # Find all exits for current room
-    for move in player.current_room.get_exits():
-        # Move in selected direction
-        # print(move)
-        player.travel(move)
-
-        # If room is in visited, backtrack to find an unvisited path
-        if player.current_room in visited:
-            player.travel(backtracking[move])
-        # if we haven't visited this room:
-        else:
-            # Add to visited
-            visited.add(player.current_room)
-            # append the move to the directions list
-            directions.append(move)
-            # recursive call and repeat the above loop and add directions to path
-            directions = directions + \
-                maze_traversal(player.current_room, visited)
-            # Move to previous room
-            player.travel(backtracking[move])
-            # add backtracking to the directions list
-            directions.append(backtracking[move])
-
-    return directions
-
-
-
-
 # Fill this out with directions to walk
-# traversal_path = ['n', 'n']
-traversal_path = maze_traversal(player.current_room)
-print(maze_traversal)
+# # traversal_path = ['n', 'n']
+# traversal_path = []
+
+# Code starts here
+def projected_path(starting_room, already_visited=set()):
+    visited = set()
+    for room in already_visited: visited.add(room)
+    path = []
+    opposite = {'n': 's', 'e': 'w', 's': 'n', 'w': 'e'}
+    
+    def add_to_path(room, back=None):
+        visited.add(room)
+        exits = room.get_exits()
+        for direction in exits:
+            if room.get_room_in_direction(direction) not in visited:
+                path.append(direction)
+                add_to_path(room.get_room_in_direction(direction), opposite[direction])
+        if back: path.append(back)
+    add_to_path(starting_room)
+    return path
+
+def create_path(starting_room, visited=set()):
+    path = []
+    opposite = {'n': 's', 'e': 'w', 's': 'n', 'w': 'e'}
+    def add_to_path(room, back=None):
+        visited.add(room)
+        exits = room.get_exits()
+        path_lengths = {}
+        
+        for direction in exits:
+            path_lengths[direction] = len(projected_path(room.get_room_in_direction(direction), visited))
+        traverse_order = []
+        
+        for key, _ in sorted(path_lengths.items(), key=lambda x: x[1]): traverse_order.append(key)
+        for direction in traverse_order:
+            if room.get_room_in_direction(direction) not in visited:
+                path.append(direction)
+                add_to_path(room.get_room_in_direction(direction), opposite[direction])
+        if len(visited) == len(world.rooms): return
+        elif back: path.append(back)
+    add_to_path(starting_room)
+    return path
+
+traversal_path = create_path(world.starting_room)
+# End of my code
 
 # TRAVERSAL TEST - DO NOT MODIFY
 visited_rooms = set()
